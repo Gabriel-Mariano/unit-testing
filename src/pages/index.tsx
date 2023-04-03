@@ -1,13 +1,15 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import { useState } from 'react'
 import { Inter } from 'next/font/google'
-import { Button } from '@src/components/Button/Button'
+import { Button } from '@src/components/Button'
 import styles from '@src/styles/Home.module.css'
-
+import Input from '@src/components/Input'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [value, setValue] = useState("");
+
   return (
     <>
       <Head>
@@ -17,6 +19,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        <Input 
+          label='Digite algo' 
+          value={value}
+          onChange={(e)=> setValue(e.target.value)}
+        />
         <Button title='Hello click me'/>
       </main>
     </>
