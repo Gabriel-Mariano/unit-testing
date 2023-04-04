@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Button } from '@src/components/Button'
 import styles from '@src/styles/Home.module.css'
 import Input from '@src/components/Input'
+import Card from '@src/components/Card'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default function Home() {
           onChange={(e)=> setValue(e.target.value)}
         />
         <Button title='Hello click me'/>
+        <Card title='Meu titulo' albumId={1} thumbnailUrl="https://via.placeholder.com/600/92c952"/>
       </main>
     </>
   )
