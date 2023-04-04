@@ -25,6 +25,4 @@ describe("Page Photo", ()=> {
         waitFor(()=> expect(listPhotos).toHaveBeenCalled())
 
     })
-
-    
 })
