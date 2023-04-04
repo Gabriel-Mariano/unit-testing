@@ -1,15 +1,14 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import { Inter } from 'next/font/google'
+import { Input } from '@src/components/Input'
 import { Button } from '@src/components/Button'
 import styles from '@src/styles/Home.module.css'
-import Input from '@src/components/Input'
-import Card from '@src/components/Card'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("")
 
   return (
     <>
@@ -19,14 +18,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Input 
-          label='Digite algo' 
-          value={value}
-          onChange={(e)=> setValue(e.target.value)}
-        />
-        <Button title='Hello click me'/>
-        <Card title='Meu titulo' albumId={1} thumbnailUrl="https://via.placeholder.com/600/92c952"/>
+      <main className={styles.main}>  
+          <Input 
+            label='Digite algo' 
+            value={value}
+            onChange={(e)=> setValue(e.target.value)}
+          />
+          <Button title='Hello click me'/> 
       </main>
     </>
   )

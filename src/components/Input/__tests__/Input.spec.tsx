@@ -1,6 +1,6 @@
 import { fireEvent, getByText, render } from '@testing-library/react'
 import "@testing-library/jest-dom"
-import Input from '..'
+import { Input } from '../index'
 
 describe("Input Component", ()=> {
     it("should render correctly", ()=> {

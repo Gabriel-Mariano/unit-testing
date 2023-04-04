@@ -5,7 +5,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?:string;
 }
 
-export default function Input({ label, ...rest }:InputProps) {
+export function Input({ label, ...rest }:InputProps) {
     return (
         <div className={styles.wrapperInput}>
             <label htmlFor="">{label}</label>

@@ -9,12 +9,13 @@ interface CardProps {
     thumbnailUrl:string
 }
 
-export default function Card (props:CardProps) {
+export function Card (props:CardProps) {
     const { albumId, title, thumbnailUrl } = props;
     return ( 
         <div className={styles.cardContainer} >
             <Image 
                 loader={() => thumbnailUrl} 
+                unoptimized 
                 src={thumbnailUrl} 
                 alt="thumbnailUrl" 
                 width={60} 

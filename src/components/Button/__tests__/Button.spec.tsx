@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { Button } from ".."
+import { Button } from "../index"
 
 describe("Button Component",()=> {
     it("should render correctly", ()=> {
