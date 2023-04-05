@@ -1,7 +1,14 @@
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, act } from '@testing-library/react'
 import "@testing-library/jest-dom"
 import Photos from '@src/pages/photos'
+import { useRouter } from 'next/router'
 import { DataPhotos, listPhotos } from '@src/services/photos'
+import { Card } from '@src/components/Card'
+
+jest.mock('next/router', () => ({
+    useRouter: jest.fn()
+  })
+);
 
 describe("Page Photo", ()=> {
     it("should render correctly", async ()=> {
@@ -24,5 +31,31 @@ describe("Page Photo", ()=> {
 
         waitFor(()=> expect(listPhotos).toHaveBeenCalled())
 
+    })
+
+    it("when receive one click should go to details page", async ()=> {
+        const mockRouter = { push: jest.fn() };
+        (useRouter as jest.Mock).mockReturnValue(mockRouter);
+
+        const cardProps = {
+            albumId: 1,
+            id: '1',
+            title: 'Card title',
+            thumbnailUrl: 'http://example.com/image.jpg',
+          };
+
+        const { getByTestId,  } = render(<Photos />)
+
+        const elementCard = getByTestId("card-id");
+        
+        act(()=> {
+            // elementCard.click();
+            fireEvent.click(elementCard)
+        })
+
+        await waitFor(() => { 
+            expect(mockRouter.push).toHaveBeenCalledWith(`/details/${cardProps.id}`)
+        }, { timeout:3000 }
+        );
     })
 })

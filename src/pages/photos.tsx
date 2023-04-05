@@ -25,8 +25,10 @@ export default function Photos() {
             return (
                 <Card 
                     title={item.title} 
+                    id={String(item.id)}
                     albumId={item.albumId} 
                     thumbnailUrl={item.thumbnailUrl}
+                    data-testid="card-id"
                 />
             )
             })

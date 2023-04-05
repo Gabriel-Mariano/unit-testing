@@ -1,17 +1,19 @@
 import Image from "next/image";
 import styles from '@src/styles/Card.Component.module.css'
+import Link from "next/link";
 
 interface CardProps {
     albumId:number,
-    id?:number,
+    id:string,
     title:string,
     url?:string,
     thumbnailUrl:string
 }
 
 export function Card (props:CardProps) {
-    const { albumId, title, thumbnailUrl } = props;
+    const { albumId, title, thumbnailUrl, id } = props;
     return ( 
+        <Link href={`/details/${id}`} data-testid="card-id">
         <div className={styles.cardContainer} >
             <Image 
                 loader={() => thumbnailUrl} 
@@ -27,5 +29,6 @@ export function Card (props:CardProps) {
                 <span><strong>Título:</strong> {title}</span>
             </div>
         </div>
+        </Link>
     )
 }
