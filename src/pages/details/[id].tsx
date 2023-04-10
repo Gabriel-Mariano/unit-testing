@@ -21,7 +21,7 @@ export async function getServerSideProps(context:{ params : { id:string } }) {
     const { id } = params;
 
     const responseData = await photoDetails(id)
-
+    console.log(responseData)
     return {
         props:{
             responseData
