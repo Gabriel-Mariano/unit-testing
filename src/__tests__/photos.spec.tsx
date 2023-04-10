@@ -1,14 +1,11 @@
-import { fireEvent, render, waitFor, act } from '@testing-library/react'
+import { fireEvent, render, waitFor, act, getByText, findByTestId } from '@testing-library/react'
 import "@testing-library/jest-dom"
 import Photos from '@src/pages/photos'
 import { useRouter } from 'next/router'
 import { DataPhotos, listPhotos } from '@src/services/photos'
-import { Card } from '@src/components/Card'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-jest.mock('next/router', () => ({
-    useRouter: jest.fn()
-  })
-);
+jest.fn(listPhotos)
 
 describe("Page Photo", ()=> {
     it("should render correctly", async ()=> {
@@ -22,20 +19,31 @@ describe("Page Photo", ()=> {
             }
         ]
 
-       global.fetch = jest.fn().mockResolvedValue({
-        json:() =>
-            Promise.resolve<DataPhotos[]>(dataMock)
-       })
+        const queryClient = new QueryClient();
+       
+        render(
+            <QueryClientProvider client={queryClient}>
+                <Photos />
+            </QueryClientProvider>
+        )
 
-        render(<Photos />)
+        global.fetch = jest.fn().mockResolvedValue({
+            json:() =>
+                Promise.resolve<DataPhotos[]>(dataMock)
+        })
 
         waitFor(()=> expect(listPhotos).toHaveBeenCalled())
 
     })
 
     it("when receive one click should go to details page", async ()=> {
-        const mockRouter = { push: jest.fn() };
-        (useRouter as jest.Mock).mockReturnValue(mockRouter);
+        // const mockRouter = { push: jest.fn() };
+        // (useRouter as jest.Mock).mockReturnValue(mockRouter);
+
+        const mockPush = jest.fn();
+        // (useRouter as jest.Mock).mockReturnValue({
+        //     push: mockPush
+        // });
 
         const cardProps = {
             albumId: 1,
@@ -43,19 +51,21 @@ describe("Page Photo", ()=> {
             title: 'Card title',
             thumbnailUrl: 'http://example.com/image.jpg',
           };
-
-        const { getByTestId,  } = render(<Photos />)
-
-        const elementCard = getByTestId("card-id");
         
-        act(()=> {
-            // elementCard.click();
-            fireEvent.click(elementCard)
-        })
+        const queryClient = new QueryClient();
 
-        await waitFor(() => { 
-            expect(mockRouter.push).toHaveBeenCalledWith(`/details/${cardProps.id}`)
-        }, { timeout:3000 }
-        );
+        const { findByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <Photos />
+            </QueryClientProvider>
+        )
+
+        const elementCard = await findByTestId("card-id");
+        
+        // elementCard.click();
+        fireEvent.click(elementCard)
+      
+        // waitFor(()=> expect(mockRouter.push).toHaveBeenCalledWith(`/details/${cardProps.id}`))
+        waitFor(()=> expect(mockPush).toHaveBeenCalledWith(`/details/${cardProps.id}`))
     })
 })
